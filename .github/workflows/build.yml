@@ -40,6 +40,7 @@ jobs:
           if [ ! -f gradle/wrapper/gradle-wrapper.jar ]; then
             echo "gradle-wrapper.jar not found - generating wrapper with Gradle 8.9"
             tmp="$(mktemp -d)"
+            touch "$tmp/settings.gradle"
             (cd "$tmp" && gradle wrapper --gradle-version 8.9 --no-daemon)
             mkdir -p gradle/wrapper
             cp "$tmp/gradle/wrapper/gradle-wrapper.jar" gradle/wrapper/gradle-wrapper.jar
