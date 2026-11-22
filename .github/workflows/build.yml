@@ -37,13 +37,14 @@ jobs:
       # If it is not committed, generate it here so ./gradlew always works in CI.
       - name: Ensure Gradle wrapper
         run: |
-          if [ ! -f gradle/wrapper/gradle-wrapper.jar ]; then
+          if [ ! -f gradle/wrapper/gradle-wrapper.jar ] || [ ! -f gradle/wrapper/gradle-wrapper.properties ]; then
             echo "gradle-wrapper.jar not found - generating wrapper with Gradle 8.9"
             tmp="$(mktemp -d)"
             touch "$tmp/settings.gradle"
             (cd "$tmp" && gradle wrapper --gradle-version 8.9 --no-daemon)
             mkdir -p gradle/wrapper
             cp "$tmp/gradle/wrapper/gradle-wrapper.jar" gradle/wrapper/gradle-wrapper.jar
+            cp "$tmp/gradle/wrapper/gradle-wrapper.properties" gradle/wrapper/gradle-wrapper.properties
             cp "$tmp/gradlew" gradlew
             cp "$tmp/gradlew.bat" gradlew.bat
           fi
